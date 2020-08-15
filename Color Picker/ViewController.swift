@@ -24,9 +24,12 @@ class ViewController: UIViewController {
     @IBOutlet var blueSlider: UISlider!
     @IBOutlet var blueMaxValue: UITextField!
     
+    var delegate: DoneDelegate?
+    var colorFromMainVC: UIColor!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        colorPicker.backgroundColor = colorFromMainVC
         colorPicker.layer.cornerRadius = 10
         redMinValue.text = String(redSlider.value)
         greenMinValue.text = String(greenSlider.value)
@@ -52,7 +55,12 @@ class ViewController: UIViewController {
     }
     
     func refresh() {
-        colorPicker.backgroundColor = UIColor(red: CGFloat(redSlider.value), green: CGFloat(greenSlider.value), blue: CGFloat(blueSlider.value), alpha: 1)
+        let newColor = UIColor(red: CGFloat(redSlider.value), green: CGFloat(greenSlider.value), blue: CGFloat(blueSlider.value), alpha: 1)
+        colorPicker.backgroundColor = newColor
+        delegate?.setColor(newColor)
     }
 }
 
+protocol DoneDelegate {
+    func setColor(_ color: UIColor)
+}
